@@ -1,45 +1,29 @@
-//capturar btns de avançar e voltar
-const btnNext = document.querySelector("#next");
-const btnPrev = document.querySelector("#prev");
-//armazenar as imagens em vetores e constantes
-const pictures = document.querySelector('.img-wrapper');
-const img = document.querySelectorAll("img");
-
-//.client define o tamanho da imagem
-
-const imgWidth = img [0].clientWidth;
+const container = document.querySelector(".img-wrapper");
+const img = document.querySelectorAll(".img-wrapper img");
 
 let status = 0;
 
-btnNext.addEventListener("click", ()=> {
-    if (status < 3){
-        /* soma + 1 pra cada vez que clicar */
-        status++;
-       /* para avançar uma imagem usaremos o a animação do translateX (eixo horizontal), então, multiplicaremos a resolução que obtivemos na img[0].clientWidth multiplicado pelo valor da váriavel contadora (status)  
-       ---------------------------------------------------------------------------------------------------------------------------------------------
-       Em suma, a imagem fará uma animação para avançar apartir daquela resolução conseguida no inicio, assim alterando para a próxima imagem 
-       Isso ocorre, porque as imagens estão em flex, e o flex-box por padraão deixa um elemento do lado do outro. Para percorrer as imagens, basta
-       multipicar o valor para exibir o próximo elemento*/
-        pictures.style.transform = `translateX(-${status * imgWidth}px)`;
-    } else{
-        // se exceder o limite ele zera o status
-        status = 0;
-        pictures.style.transform = `translateX(0px)`;
-    }
-});
+const imgWidth = img [0].clientWidth;
 
-btnPrev.addEventListener("click", () => {
-    /*  */
-    if(status > 0){
+function slider() {
+  status++;
 
-        status--;
-        /* mesma lógica aplicada antes, mas como a variável status está decrementando, ele irá para o lado oposto */
-        pictures.style.transform = `translateX(-${status * imgWidth}px)`
+  //se o contador for maior que o a quantidade de imagens ele automaticamente irá voltar para a posição 0 ou seja, quando o usuário chegar na última imagem automaticamente ele retorna para a posição 0
+  if (status > img.length -1) {
+    status = 0;
+  }
 
-    }else{
-        /* se exceder, ele volta. */
-        status = img.length - 1;
-        pictures.style.transform = `translateX(-${status * imgWidth}px)`
-    }
-});
+  //
+  container.style.transform = `translateX(-${status * imgWidth}px)`;
+
+  
+}
+
+
+
+// executa uma função no tempo pré-definido, nesse caso, a função será a slider e o tempo será de 2000 em 2000ms
+// recebe a função a repetir e o tempo em ms - milisegundos
+setInterval(slider, 2000);
+
+
 
